@@ -16,9 +16,13 @@ namespace ChatAppConsoleUi
 
         static void Main(string[] args)
         {
-            User u=new User();
-            bool res = repository.AddUser(u);
-            Console.WriteLine(res);
+            var users = repository.GetAllCategories();
+            foreach (var user in users)
+            {
+                Console.WriteLine($"User ID: {user.UserId}, Email: {user.Email}");
+            }
+
+
         }
     }
     }

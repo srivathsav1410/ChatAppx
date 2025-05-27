@@ -3,9 +3,12 @@ using ChatAppDataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using ChatAppServiceLayer.Models;
 using User = ChatAppDataAccessLayer.Models.User;
+using Microsoft.AspNetCore.Cors;
 
 namespace ChatAppServiceLayer.Controllers
 {
+    [EnableCors("AllowFrontend")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -56,18 +59,47 @@ namespace ChatAppServiceLayer.Controllers
         [HttpPost("login")]
         public JsonResult VerifyUsers(AuthUser user)
         {
-            string res = "";
+            User res = new User();
             try
             {
                 res = chatAppRepository.VerifyUser(user.Username,user.Password);
             }
             catch (Exception)
             {
-                res = "Doest Not Exists";
+                res = null;
             }
             return Json(res);
         }
+        //[HttpPost("uploadimage")]
 
+        //public async Task<JsonResult> UploadImage(IFormFile image, string userId)
+        //{
+        //    bool result;
+        //    try
+        //    {
+        //        result = await chatAppRepository.UploadImage(image, userId);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        result = false;
+        //    }
+        //    return Json(result);
+        //}
+
+        //[HttpGet("getimage")]
+        //public async Task<JsonResult> GetImage(int userId)
+        //{
+        //    string imageUrl = "";
+        //    try
+        //    {
+        //        imageUrl =  chatAppRepository.getImageUrl(userId);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        imageUrl = null;
+        //    }
+        //    return Json(imageUrl);
+        //}
 
     }
 }

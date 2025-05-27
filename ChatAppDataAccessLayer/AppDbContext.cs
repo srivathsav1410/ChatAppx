@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ChatAppDataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Metadata;
 namespace ChatAppDataAccessLayer
 {
     public class ChatAppDbContext : DbContext
@@ -16,7 +17,9 @@ namespace ChatAppDataAccessLayer
 
         public ChatAppDbContext(DbContextOptions<ChatAppDbContext> options)
             : base(options)
-        { }
+        { 
+        
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -24,11 +27,18 @@ namespace ChatAppDataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var config = builder.Build();
+
+            var connectionString = config.GetConnectionString("ChatAppDBConnectionString");
+
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB;Initial Catalog=ChatAppCore;Integrated Security=true");
+                // #warning To protect potentially sensitive information in your connection string,
+                optionsBuilder.UseSqlServer(connectionString);
             }
-
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
