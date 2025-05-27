@@ -13,7 +13,7 @@ namespace ChatAppDataAccessLayer
         public ChatAppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ChatAppDbContext>();
-            optionsBuilder.UseSqlServer("\"Server=tcp:chatappx.database.windows.net,1433;Initial Catalog=chatapp;Persist Security Info=False;User ID=chatappadmin;Password=Vaishu@1432;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;\"");
+            optionsBuilder.UseSqlServer("");
 
             return new ChatAppDbContext(optionsBuilder.Options);
         }
